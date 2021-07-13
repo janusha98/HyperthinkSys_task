@@ -22,15 +22,15 @@ export default function App() {
   };
 
   const weatherData = async () => {
-    const latLong = await googleApi(place);
     let weatherDetails;
+    const latLong = await googleApi(place);
     weatherDetails = await axios
       .get(
         `https://api.openweathermap.org/data/2.5/onecall?lat=${latLong.lat}&lon=${latLong.lng}&appid=bfc7e3515b286d62d95bf81265bff46c`
       )
-      .then((response) => setWeatherContent(response.data))
+      .then((response) => (weatherDetails = response.data))
       .catch((e) => console.log(e));
-    return <DisplayWeatherContent {...weatherContent} />;
+    return weatherDetails;
   };
   return (
     <div className="App">
