@@ -43,8 +43,8 @@ export default function App() {
       <Button onClick={weatherData}>Click</Button>
       {_.isEmpty(weatherContent)
         ? null
-        : Object.keys(weatherContent).map((data) => (
-            <Card>
+        : Object.keys(weatherContent).map((data, id) => (
+            <Card key={id}>
               <Card.Body>
                 <p>{data.daily[0].rain}</p>
                 <p>{data.daily[0].temp}</p>
