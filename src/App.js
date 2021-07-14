@@ -47,7 +47,7 @@ export default function App() {
 
   const clickHandler = async () => {
     const data = await weatherData();
-    setWeatherContent(data);
+    wdata = data;
   };
   return (
     <div className="App">
@@ -59,13 +59,12 @@ export default function App() {
           {clickHandler}
         </Col>
       </Row>
-      <p>{wdata}</p>
       {!!wdata ? (
         <Row>
           <Card>
             <Card.Body>
-              <p>Temperature: {weatherContent["daily"][0].temp}</p>
-              <p>RainFall: {weatherContent["daily"][0].rain}</p>
+              <p>Temperature: {wdata["daily"][0].temp}</p>
+              <p>RainFall: {wdata["daily"][0].rain}</p>
             </Card.Body>
           </Card>
         </Row>
