@@ -1,14 +1,22 @@
 import "./styles.css";
 import { useState } from "react";
 import axios from "axios";
-import { Button, Card } from "react-bootstrap";
+import { Button, Card, Row, Col } from "react-bootstrap";
 import { Sparklines, SparklinesLine } from "react-sparklines";
-import _ from "lodash";
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import styled from "styled-components";
+
+const StyledButton = styled(Button)`
+  font-size: 1em;
+  margin: 1em;
+  padding: 4px 5px;
+  border-radius: 3px;
+`;
 
 export default function App() {
   const [place, setPlace] = useState("");
-  const [weatherContent, setWeatherContent] = useState({});
-  console.log(weatherContent);
+  let [weatherContent, setWeatherContent] = useState("");
+  let wdata;
   const getPlace = (e) => {
     setPlace(e.target.value);
   };
@@ -33,24 +41,35 @@ export default function App() {
       )
       .then((response) => response.data)
       .catch((e) => console.log(e));
-    return setWeatherContent(weatherDetails);
+    // console.log(weatherContent);
+    return weatherDetails;
+  };
+
+  const clickHandler = async () => {
+    const data = await weatherData();
+    setWeatherContent(data);
   };
   return (
     <div className="App">
-      <h1>Hello CodeSandbox</h1>
-      <h2>Edit to see some magic happen!</h2>
-      <input type="text" onChange={getPlace} />
-      <Button onClick={weatherData}>Click</Button>
-      {_.isEmpty(weatherContent)
-        ? null
-        : Object.keys(weatherContent).map((data, id) => (
-            <Card key={id}>
-              <Card.Body>
-                <p>{data.daily[0].rain}</p>
-                <p>{data.daily[0].temp}</p>
-              </Card.Body>
-            </Card>
-          ))}
+      <Row>
+        <h1>Hello CodeSandbox</h1>
+        <Col lg={8}>
+          <input type="text" onChange={getPlace} />
+          <StyledButton onClick={clickHandler}>Go</StyledButton>
+          {clickHandler}
+        </Col>
+      </Row>
+      <p>{wdata}</p>
+      {!!wdata ? (
+        <Row>
+          <Card>
+            <Card.Body>
+              <p>Temperature: {weatherContent["daily"][0].temp}</p>
+              <p>RainFall: {weatherContent["daily"][0].rain}</p>
+            </Card.Body>
+          </Card>
+        </Row>
+      ) : null}
     </div>
   );
 }
